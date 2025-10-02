@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold Tracker</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-content">
+            <div class="gold-icon">
+                <div class="gold-coin">💰</div>
+            </div>
+            <h1 class="loading-title">Gold Tracker</h1>
+            <div class="loading-spinner"></div>
+        </div>
+    </div>
+
+    <!-- Welcome Screen -->
+    <div id="welcome-screen" class="screen">
+        <div class="welcome-content">
+            <h1 class="welcome-title">Welcome to Gold Tracker</h1>
+            <p class="welcome-subtitle">Track your gold investments and watch your wealth grow</p>
+            
+            <form id="welcome-form" class="welcome-form">
+                <!-- Username Input -->
+                <div class="form-group">
+                    <label for="username" class="form-label">Your Name</label>
+                    <input type="text" id="username" class="form-control" placeholder="Enter your name" required>
+                </div>
+
+                <!-- Gold Holdings Section -->
+                <div class="holdings-section">
+                    <h3 class="section-title">Your Gold Holdings</h3>
+                    <div id="holdings-container">
+                        <!-- Initial holding entry -->
+                        <div class="holding-entry" data-index="1">
+                            <div class="holding-header">
+                                <h4>Purchase #1</h4>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Grams</label>
+                                    <input type="number" class="form-control grams-input" placeholder="10" step="0.1" min="0.1" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Purity</label>
+                                    <select class="form-control purity-input" required>
+                                        <option value="">Select</option>
+                                        <option value="24K">24K</option>
+                                        <option value="22K">22K</option>
+                                        <option value="18K">18K</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Purchase Date</label>
+                                <input type="date" class="form-control date-input" min="2022-01-01" max="2025-09-30" value="2024-01-01" required>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button type="button" id="add-holding-btn" class="btn btn--secondary btn--full-width">
+                        + Add Another Purchase
+                    </button>
+                </div>
+
+                <button type="submit" id="see-investment-btn" class="btn btn--primary btn--full-width btn--lg" disabled>
+                    See My Investment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Screen -->
+    <div id="dashboard-screen" class="screen">
+        <div class="dashboard-content">
+            <!-- Header -->
+            <div class="dashboard-header">
+                <h1 id="user-greeting" class="dashboard-title">Hi!</h1>
+                <div class="current-prices">
+                    <h3>Current Gold Prices (₹/gram)</h3>
+                    <div class="price-grid">
+                        <div class="price-card">
+                            <span class="price-label">24K</span>
+                            <span class="price-value">₹11,831</span>
+                        </div>
+                        <div class="price-card">
+                            <span class="price-label">22K</span>
+                            <span class="price-value">₹10,845</span>
+                        </div>
+                        <div class="price-card">
+                            <span class="price-label">18K</span>
+                            <span class="price-value">₹8,873</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Investment Summary -->
+            <div class="investment-summary">
+                <h3>Investment Summary</h3>
+                <div class="summary-grid">
+                    <div class="summary-card">
+                        <div class="summary-label">Total Investment</div>
+                        <div id="total-investment" class="summary-value">₹0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Current Value</div>
+                        <div id="current-value" class="summary-value">₹0</div>
+                    </div>
+                    <div class="summary-card">
+                        <div class="summary-label">Total Gain/Loss</div>
+                        <div id="total-gain-loss" class="summary-value gain">₹0 (0%)</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Price Chart -->
+            <div class="chart-section">
+                <h3>Gold Price Trend (24K)</h3>
+                <div class="chart-container" style="position: relative; height: 300px;">
+                    <canvas id="price-chart"></canvas>
+                </div>
+            </div>
+
+            <!-- Holdings Breakdown -->
+            <div class="holdings-breakdown">
+                <div class="section-header">
+                    <h3>Your Holdings</h3>
+                    <button id="add-new-purchase-btn" class="btn btn--primary btn--sm">
+                        + Add New
+                    </button>
+                </div>
+                <div id="holdings-list" class="holdings-list">
+                    <!-- Holdings will be populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add New Purchase Modal -->
+    <div id="add-purchase-modal" class="modal hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Purchase</h3>
+                <button type="button" id="close-modal" class="close-btn">&times;</button>
+            </div>
+            <form id="new-purchase-form">
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label class="form-label">Grams</label>
+                        <input type="number" id="new-grams" class="form-control" placeholder="10" step="0.1" min="0.1" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purity</label>
+                        <select id="new-purity" class="form-control" required>
+                            <option value="">Select</option>
+                            <option value="24K">24K</option>
+                            <option value="22K">22K</option>
+                            <option value="18K">18K</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Purchase Date</label>
+                        <input type="date" id="new-date" class="form-control" min="2022-01-01" max="2025-09-30" value="2024-01-01" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="cancel-purchase" class="btn btn--secondary">Cancel</button>
+                    <button type="submit" class="btn btn--primary">Add Purchase</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>
+        // Initialize chart after dashboard is loaded
+        let goldChart = null;
+        
+        function initializeChart() {
+            const ctx = document.getElementById('price-chart');
+            if (!ctx || goldChart) return;
+            
+            const chartData = [
+                {"date": "2022-12", "price": 4761},
+                {"date": "2023-01", "price": 4950},
+                {"date": "2023-03", "price": 5200},
+                {"date": "2023-06", "price": 5800},
+                {"date": "2023-09", "price": 6200},
+                {"date": "2023-12", "price": 6800},
+                {"date": "2024-03", "price": 7200},
+                {"date": "2024-06", "price": 8500},
+                {"date": "2024-09", "price": 9800},
+                {"date": "2024-12", "price": 10500},
+                {"date": "2025-03", "price": 10800},
+                {"date": "2025-06", "price": 11200},
+                {"date": "2025-09", "price": 11831}
+            ];
+            
+            goldChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: chartData.map(d => d.date),
+                    datasets: [{
+                        label: '24K Gold Price (₹/gram)',
+                        data: chartData.map(d => d.price),
+                        borderColor: '#1FB8CD',
+                        backgroundColor: 'rgba(31, 184, 205, 0.1)',
+                        fill: true,
+                        tension: 0.4,
+                        pointBackgroundColor: '#1FB8CD',
+                        pointBorderColor: '#ffffff',
+                        pointBorderWidth: 2,
+                        pointRadius: 4,
+                        pointHoverRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            ticks: {
+                                callback: function(value) {
+                                    return '₹' + value.toLocaleString();
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.1)'
+                            }
+                        }
+                    },
+                    interaction: {
+                        intersect: false,
+                        mode: 'index'
+                    }
+                }
+            });
+        }
+        
+        // Override the original updateDashboard function to include chart initialization
+        const originalUpdateDashboard = window.updateDashboard || updateDashboard;
+        window.updateDashboard = function() {
+            if (originalUpdateDashboard) {
+                originalUpdateDashboard();
+            }
+            setTimeout(initializeChart, 100);
+        };
+    </script>
+</body>
+</html>

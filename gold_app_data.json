@@ -1,0 +1,111 @@
+{
+  "current_prices": {
+    "24K": 11831,
+    "22K": 10845,
+    "18K": 8873,
+    "last_updated": "2025-09-30"
+  },
+  "historical_prices": [
+    {
+      "date": "2022-12-12",
+      "price_24k": 4761,
+      "price_22k": 4363,
+      "price_18k": 3571
+    },
+    {
+      "date": "2023-01-15",
+      "price_24k": 4950,
+      "price_22k": 4537,
+      "price_18k": 3713
+    },
+    {
+      "date": "2023-03-15",
+      "price_24k": 5200,
+      "price_22k": 4767,
+      "price_18k": 3900
+    },
+    {
+      "date": "2023-06-15",
+      "price_24k": 5800,
+      "price_22k": 5317,
+      "price_18k": 4350
+    },
+    {
+      "date": "2023-09-15",
+      "price_24k": 6200,
+      "price_22k": 5683,
+      "price_18k": 4650
+    },
+    {
+      "date": "2023-12-15",
+      "price_24k": 6800,
+      "price_22k": 6234,
+      "price_18k": 5100
+    },
+    {
+      "date": "2024-03-15",
+      "price_24k": 7200,
+      "price_22k": 6600,
+      "price_18k": 5400
+    },
+    {
+      "date": "2024-06-15",
+      "price_24k": 8500,
+      "price_22k": 7792,
+      "price_18k": 6375
+    },
+    {
+      "date": "2024-09-15",
+      "price_24k": 9800,
+      "price_22k": 8984,
+      "price_18k": 7350
+    },
+    {
+      "date": "2024-12-15",
+      "price_24k": 10500,
+      "price_22k": 9625,
+      "price_18k": 7875
+    },
+    {
+      "date": "2025-03-15",
+      "price_24k": 10800,
+      "price_22k": 9900,
+      "price_18k": 8100
+    },
+    {
+      "date": "2025-06-15",
+      "price_24k": 11200,
+      "price_22k": 10267,
+      "price_18k": 8400
+    },
+    {
+      "date": "2025-09-30",
+      "price_24k": 11831,
+      "price_22k": 10845,
+      "price_18k": 8873
+    }
+  ],
+  "sample_calculation": {
+    "holdings": [
+      {
+        "grams": 50,
+        "purity": "24K",
+        "purchase_date": "2022-12-12",
+        "purchase_price": 4761,
+        "investment_amount": 238050,
+        "current_amount": 591550,
+        "gain": 353500,
+        "gain_percentage": 148.49821466078555
+      }
+    ],
+    "total_investment": 238050,
+    "current_value": 591550,
+    "total_gain": 353500,
+    "total_gain_percentage": 148.49821466078555
+  },
+  "api_endpoints": {
+    "note": "These are sample API endpoints for live data updates",
+    "gold_price_api": "https://api.metals.dev/v1/latest",
+    "backup_api": "https://goldprice.org/api/latest"
+  }
+}
