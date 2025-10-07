@@ -962,52 +962,25 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     margin-bottom: var(--space-16);
 }
 
-.current-prices {
+/* Section 1: Investment Summary & Holdings */
+.section-1 {
     background: var(--color-surface);
     padding: var(--space-20);
     border-radius: var(--radius-lg);
     border: 1px solid var(--color-card-border);
+    box-shadow: var(--shadow-sm);
 }
 
-.current-prices h3 {
-    margin-bottom: var(--space-16);
-    color: var(--color-text);
-}
-
-.price-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-12);
-}
-
-.price-card {
-    background: var(--color-bg-2);
-    padding: var(--space-12);
-    border-radius: var(--radius-base);
-    text-align: center;
-    border: 1px solid var(--color-card-border-inner);
-}
-
-.price-label {
-    display: block;
-    font-size: var(--font-size-sm);
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-4);
-}
-
-.price-value {
-    display: block;
-    font-size: var(--font-size-lg);
-    font-weight: var(--font-weight-semibold);
-    color: var(--color-text);
+/* Section 2: Live Gold Prices & Chart */
+.section-2 {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-20);
 }
 
 /* Investment Summary */
 .investment-summary {
-    background: var(--color-surface);
-    padding: var(--space-20);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-card-border);
+    margin-bottom: var(--space-24);
 }
 
 .investment-summary h3 {
@@ -1049,6 +1022,178 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     color: var(--color-error);
 }
 
+/* Live Price Ticker */
+.live-ticker {
+    background: var(--color-surface);
+    padding: var(--space-20);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-card-border);
+    box-shadow: var(--shadow-sm);
+}
+
+.ticker-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: var(--space-16);
+    flex-wrap: wrap;
+    gap: var(--space-12);
+}
+
+.ticker-header h3 {
+    margin: 0;
+    color: var(--color-text);
+}
+
+.ticker-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-12);
+    flex-wrap: wrap;
+}
+
+.status-indicator {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-success);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.status--error .status-dot {
+    background: var(--color-error);
+    animation: none;
+}
+
+.refresh-icon {
+    display: inline-block;
+    transition: transform var(--duration-fast) var(--ease-standard);
+}
+
+.refresh-icon.spinning {
+    animation: spin 1s linear infinite;
+}
+
+.price-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-12);
+    margin-bottom: var(--space-16);
+}
+
+.price-card {
+    background: var(--color-bg-1);
+    padding: var(--space-16);
+    border-radius: var(--radius-base);
+    text-align: center;
+    border: 1px solid var(--color-card-border-inner);
+    transition: all var(--duration-fast) var(--ease-standard);
+}
+
+.price-card.live-price {
+    position: relative;
+    overflow: hidden;
+}
+
+.price-card.price-updated {
+    animation: priceFlash 0.5s ease-out;
+}
+
+@keyframes priceFlash {
+    0% {
+        background-color: var(--color-bg-1);
+    }
+    50% {
+        background-color: rgba(var(--color-teal-500-rgb, 33, 128, 141), 0.2);
+    }
+    100% {
+        background-color: var(--color-bg-1);
+    }
+}
+
+.price-label {
+    display: block;
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-8);
+    font-weight: var(--font-weight-medium);
+}
+
+.price-main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+}
+
+.price-value {
+    display: block;
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text);
+}
+
+.price-change {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    font-size: var(--font-size-xs);
+    font-weight: var(--font-weight-medium);
+}
+
+.price-change.positive {
+    color: var(--color-success);
+}
+
+.price-change.negative {
+    color: var(--color-error);
+}
+
+.price-change.neutral {
+    color: var(--color-text-secondary);
+}
+
+.change-arrow {
+    font-size: var(--font-size-xs);
+}
+
+.ticker-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: var(--space-12);
+    border-top: 1px solid var(--color-card-border-inner);
+    font-size: var(--font-size-sm);
+    color: var(--color-text-secondary);
+    flex-wrap: wrap;
+    gap: var(--space-8);
+}
+
+.last-updated span,
+.next-update span,
+.api-source span {
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+}
+
 /* Chart Section */
 .chart-section {
     background: var(--color-surface);
@@ -1057,9 +1202,28 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     border: 1px solid var(--color-card-border);
 }
 
-.chart-section h3 {
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: var(--space-16);
+    flex-wrap: wrap;
+    gap: var(--space-12);
+}
+
+.chart-header h3 {
+    margin: 0;
     color: var(--color-text);
+}
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--space-8);
+}
+
+.chart-selector {
+    min-width: 120px;
 }
 
 .chart-container {
@@ -1068,18 +1232,10 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     border-radius: var(--radius-base);
 }
 
-.price-chart {
-    width: 100%;
-    height: auto;
-    display: block;
-}
-
 /* Holdings Breakdown */
 .holdings-breakdown {
-    background: var(--color-surface);
-    padding: var(--space-20);
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--color-card-border);
+    border-top: 1px solid var(--color-card-border-inner);
+    padding-top: var(--space-20);
 }
 
 .section-header {
@@ -1161,7 +1317,7 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     color: var(--color-error);
 }
 
-/* Modal */
+/* Modal - Ensure proper hiding */
 .modal {
     position: fixed;
     top: 0;
@@ -1281,6 +1437,12 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
     color: var(--color-text-secondary) !important;
 }
 
+/* Loading states */
+.api-loading {
+    opacity: 0.6;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
 /* Responsive design */
 @media (max-width: 640px) {
     .welcome-content,
@@ -1309,6 +1471,26 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
         flex-direction: column;
         align-items: stretch;
         gap: var(--space-12);
+    }
+    
+    .ticker-header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .ticker-controls {
+        justify-content: space-between;
+    }
+    
+    .ticker-footer {
+        flex-direction: column;
+        align-items: stretch;
+        text-align: center;
+    }
+    
+    .chart-header {
+        flex-direction: column;
+        align-items: stretch;
     }
     
     .modal {
@@ -1365,4 +1547,20 @@ input[type="date"].form-control::-webkit-calendar-picker-indicator {
 .price-card:hover {
     transform: translateY(-1px);
     box-shadow: var(--shadow-sm);
+}
+
+/* Loading animation for prices */
+.price-loading {
+    opacity: 0.6;
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes priceUpdate {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.price-card.updated {
+    animation: priceUpdate 0.3s ease-out;
 }
